@@ -52,7 +52,7 @@ Output
 httpmap -h
 
 Description:
-  Data Scraper
+  Tool for scraping backend data from frontend code.
 
 Usage:
   0mg.HttpMap [options]
