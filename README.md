@@ -15,6 +15,11 @@ dotnet 6 https://dotnet.microsoft.com/en-us/download
 ```
 dotnet tool install --global 0mg.HttpMap
 ```
+You may need to add `$HOME/.dotnet/tools` to your path on Linux. You can do so by adding something like the following to your `.bashrc` or `.zshrc` file
+```bash
+export DOTNETTOOLS=$HOME/.dotnet/tools
+export PATH=$DOTNETTOOLS:$PATH
+```
 
 ### Installing from source
 ```powershell
