@@ -11,7 +11,17 @@ Extracts the following data:
 ## Requirements
 dotnet 6 https://dotnet.microsoft.com/en-us/download
 
-## Installing from source
+## Installation
+```
+dotnet tool install --global 0mg.HttpMap
+```
+You may need to add `$HOME/.dotnet/tools` to your path on Linux. You can do so by adding something like the following to your `.bashrc` or `.zshrc` file
+```bash
+export DOTNETTOOLS=$HOME/.dotnet/tools
+export PATH=$DOTNETTOOLS:$PATH
+```
+
+### Installing from source
 ```powershell
 dotnet pack -c Release .\src\0mg.HttpMap\0mg.HttpMap.csproj
 dotnet tool install --global --add-source .nupkg 0mg.HttpMap
@@ -52,7 +62,7 @@ Output
 httpmap -h
 
 Description:
-  Data Scraper
+  Tool for scraping backend data from frontend code.
 
 Usage:
   0mg.HttpMap [options]
