@@ -11,7 +11,12 @@ Extracts the following data:
 ## Requirements
 dotnet 6 https://dotnet.microsoft.com/en-us/download
 
-## Installing from source
+## Installation
+```
+dotnet tool install --global 0mg.HttpMap
+```
+
+### Installing from source
 ```powershell
 dotnet pack -c Release .\src\0mg.HttpMap\0mg.HttpMap.csproj
 dotnet tool install --global --add-source .nupkg 0mg.HttpMap

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,6 +8,7 @@
 	<Authors>0mgFriday</Authors>
 	<Description>Tool for scraping backend data from frontend code.</Description>
 	<RepositoryUrl>https://github.com/0mgfriday/httpmap</RepositoryUrl>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RootNamespace>_0mg.HttpMap</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
