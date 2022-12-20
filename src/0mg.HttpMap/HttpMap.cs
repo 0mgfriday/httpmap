@@ -6,7 +6,7 @@ namespace _0mg.HttpMap
 {
     internal class HttpMap
     {
-        public static async Task ScrapeAsync(string url, string userAgent, string? proxyUrl)
+        public static async Task ScrapeAsync(string url, string userAgent, string? proxyUrl, IEnumerable<string> headers)
         {
             if (!Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
@@ -18,7 +18,7 @@ namespace _0mg.HttpMap
             {
                 var uri = new Uri(url, UriKind.Absolute);
 
-                var httpClient = BuildHttpClient(userAgent, proxyUrl);
+                var httpClient = BuildHttpClient(userAgent, proxyUrl, headers);
                 var scraper = new Scraper.Scraper(httpClient);
                 var spaScraper = new SpaScraper(scraper);
 
@@ -34,13 +34,15 @@ namespace _0mg.HttpMap
             }
         }
 
-        static HttpClient BuildHttpClient(string userAgent, string? proxyUrl)
+        static HttpClient BuildHttpClient(string userAgent, string? proxyUrl, IEnumerable<string> defaultHeaders)
         {
             var builder = new HttpClientBuilder();
             builder.SetUseragent(userAgent);
 
             if (!string.IsNullOrEmpty(proxyUrl))
                 builder.SetProxyUrl(proxyUrl);
+
+            builder.SetDefaultHeaders(defaultHeaders);
 
             return builder.Build();
         }

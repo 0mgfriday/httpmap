@@ -2,7 +2,7 @@
 
 var targetOption = new Option<string>(
     new string[] { "--uri", "-u" },
-    description: "Uri to scrape. (Url or file path)")
+    description: "Uri to scrape (Url or file path)")
 {
     IsRequired = true,
 };
@@ -22,21 +22,31 @@ var proxyOption = new Option<string?>(
     IsRequired = false,
 };
 
+var headersOption = new Option<IEnumerable<string>>(
+    new string[] { "--header", "-H" },
+    description: "Header for requests (Multiple Allowed)")
+{
+    IsRequired = false,
+    AllowMultipleArgumentsPerToken = true,
+};
+
 var rootCommand = new RootCommand
 {
     targetOption,
     userAgentOption,
-    proxyOption
+    proxyOption,
+    headersOption
 };
 
 rootCommand.Description = "Tool for scraping backend data from frontend code.";
 rootCommand.SetHandler(
-    async (string target, string userAgent, string? proxyUrl) =>
+    async (string target, string userAgent, string? proxyUrl, IEnumerable<string> headers) =>
     {
-        await _0mg.HttpMap.HttpMap.ScrapeAsync(target, userAgent, proxyUrl);
+        await _0mg.HttpMap.HttpMap.ScrapeAsync(target, userAgent, proxyUrl, headers);
     },
     targetOption,
     userAgentOption,
-    proxyOption);
+    proxyOption,
+    headersOption);
 
 return await rootCommand.InvokeAsync(args);
