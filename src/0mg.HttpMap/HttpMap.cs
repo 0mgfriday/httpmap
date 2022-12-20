@@ -10,7 +10,7 @@ namespace _0mg.HttpMap
             if (!Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
                 Console.WriteLine("Invalid URI provided");
-                System.Environment.Exit(1);
+                Environment.Exit(1);
             }
 
             try
@@ -18,9 +18,9 @@ namespace _0mg.HttpMap
                 var uri = new Uri(url, UriKind.Absolute);
 
                 var httpClient = BuildHttpClient(userAgent, proxyUrl);
-                var scraper = new Scraper.Scraper(httpClient, uri);
+                var scraper = new Scraper.Scraper(httpClient);
 
-                var data = await scraper.ScrapeAsync();
+                var data = await scraper.ScrapeAsync(uri);
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented);
 
                 Console.WriteLine(json);

@@ -6,23 +6,13 @@ namespace _0mg.HttpMap.Scraper
     public class Scraper
     {
         readonly HttpClient httpClient;
-        readonly Uri baseUrl;
 
-        readonly PageData pageData =  new();
-
-        public Scraper(HttpClient httpClient, Uri baseUrl)
+        public Scraper(HttpClient httpClient)
         {
             this.httpClient = httpClient;
-            this.baseUrl = baseUrl;
         }
 
-        public async Task<PageData> ScrapeAsync()
-        {
-            await ScrapeAsync(baseUrl);
-            return pageData;
-        }
-
-        async Task ScrapeAsync(Uri url)
+        public async Task<PageData> ScrapeAsync(Uri url)
         {
             string? content = null;
             string? contentType = null;
@@ -46,34 +36,41 @@ namespace _0mg.HttpMap.Scraper
             {
                 if (contentType == "application/javascript" || url.LocalPath.EndsWith("js"))
                 {
-                    GetDataFromJavaScript(content);
+                    return GetDataFromJavaScript(content);
                 }
                 else
-                    GetDataFromHtml(content);
+                    return GetDataFromHtml(content, url.Host);
             }
+            else
+                return new PageData();
         }
 
-        public void GetDataFromJavaScript(string js)
+        PageData GetDataFromJavaScript(string js)
         {
             var parser = new JSParser();
             var secretsParser = new SecretsParser();
+            var pageData = new PageData();
 
             pageData.AddPaths(parser.GetPaths(js));
             pageData.AddExternalPaths(parser.GetUrls(js));
             pageData.AddWebSockets(parser.GetWebSockets(js));
             pageData.AddGraphQL(parser.GetGraphQL(js));
             pageData.AddSecrets(secretsParser.GetAPIKeys(js));
+            
+            return pageData;
         }
 
-        public void GetDataFromHtml(string html)
+        PageData GetDataFromHtml(string html, string targetHost)
         {
             var parser = new HtmlParser(html);
+            var pageData = new PageData();
+
             foreach (var l in parser.GetLinks())
             {
                 if (Uri.IsWellFormedUriString(l, UriKind.Absolute))
                 {
                     var uri = new Uri(l);
-                    if (uri.Host == baseUrl.Host)
+                    if (uri.Host == targetHost)
                         pageData.AddPath(uri.PathAndQuery);
                     else
                         pageData.AddExternalPath(l);
@@ -89,8 +86,11 @@ namespace _0mg.HttpMap.Scraper
 
             foreach (var js in parser.GetInlineJS())
             {
-                GetDataFromJavaScript(js);
+                var jsData = GetDataFromJavaScript(js);
+                pageData.AddData(jsData);
             }
+
+            return pageData;
         }
     }
 }
