@@ -13,7 +13,7 @@ var userAgentOption = new Option<string>(
 {
     IsRequired = false,
 };
-userAgentOption.SetDefaultValue("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101 Firefox/104.0");
+userAgentOption.SetDefaultValue("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0");
 
 var proxyOption = new Option<string?>(
     new string[] { "--proxy", "-p" },
