@@ -30,23 +30,32 @@ var headersOption = new Option<IEnumerable<string>>(
     AllowMultipleArgumentsPerToken = true,
 };
 
+var outfileOption = new Option<string?>(
+    new string[] { "--outfile", "-o" },
+    description: "Write output to specified file")
+{
+    IsRequired = false,
+};
+
 var rootCommand = new RootCommand
 {
     targetOption,
     userAgentOption,
     proxyOption,
-    headersOption
+    headersOption,
+    outfileOption,
 };
 
 rootCommand.Description = "Tool for scraping backend data from frontend code.";
 rootCommand.SetHandler(
-    async (string target, string userAgent, string? proxyUrl, IEnumerable<string> headers) =>
+    async (string target, string userAgent, string? proxyUrl, IEnumerable<string> headers, string? outFile) =>
     {
-        await _0mg.HttpMap.HttpMap.ScrapeAsync(target, userAgent, proxyUrl, headers);
+        await _0mg.HttpMap.HttpMap.ScrapeAsync(target, userAgent, proxyUrl, headers, outFile);
     },
     targetOption,
     userAgentOption,
     proxyOption,
-    headersOption);
+    headersOption,
+    outfileOption);
 
 return await rootCommand.InvokeAsync(args);

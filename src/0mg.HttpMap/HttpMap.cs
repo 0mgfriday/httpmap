@@ -6,12 +6,21 @@ namespace _0mg.HttpMap
 {
     internal class HttpMap
     {
-        public static async Task ScrapeAsync(string url, string userAgent, string? proxyUrl, IEnumerable<string> headers)
+        public static async Task ScrapeAsync(string url, string userAgent, string? proxyUrl, IEnumerable<string> headers, string? outFile)
         {
             if (!Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
                 Console.WriteLine("Invalid URI provided");
                 Environment.Exit(1);
+            }
+
+            if (outFile != null)
+            {
+                if (!Uri.IsWellFormedUriString(outFile, UriKind.Absolute) && !Uri.IsWellFormedUriString(outFile, UriKind.Relative))
+                {
+                    Console.WriteLine("Invalid outfile");
+                    Environment.Exit(1);
+                }
             }
 
             try
@@ -26,6 +35,10 @@ namespace _0mg.HttpMap
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented);
 
                 Console.WriteLine(json);
+                if (outFile != null)
+                {
+                    File.WriteAllText(outFile, json);
+                }
             }
             catch (Exception ex)
             {
