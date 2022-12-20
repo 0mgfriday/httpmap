@@ -1,5 +1,4 @@
-﻿using AngleSharp.Dom;
-using System.CommandLine;
+﻿using System.CommandLine;
 
 const string banner = @".__     __    __                                
 |  |___/  |__/  |_______   _____ _____  ______  
