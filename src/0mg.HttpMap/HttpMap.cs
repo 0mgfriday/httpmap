@@ -1,4 +1,5 @@
 ﻿using _0mg.HttpMap.Builders;
+using _0mg.HttpMap.Scraper;
 using Newtonsoft.Json;
 
 namespace _0mg.HttpMap
@@ -19,8 +20,9 @@ namespace _0mg.HttpMap
 
                 var httpClient = BuildHttpClient(userAgent, proxyUrl);
                 var scraper = new Scraper.Scraper(httpClient);
+                var spaScraper = new SpaScraper(scraper);
 
-                var data = await scraper.ScrapeAsync(uri);
+                var data = await spaScraper.ScrapeAsync(uri);
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented);
 
                 Console.WriteLine(json);
