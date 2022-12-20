@@ -1,5 +1,6 @@
 # Overview
-Tool for scraping backend data from frontend code. Meant to find most of the things to give an overview of what is there and what to look closer at.
+Tool for scraping backend data from a given file or url. For spa apps it will try to find the main or app js file to extract info from. Meant to find most of the things to give an overview of what is there and what to look closer at.
+
 
 Extracts the following data:
 - Paths
@@ -29,11 +30,20 @@ dotnet tool install --global --add-source .nupkg 0mg.HttpMap
 
 ## Example
 ```
-httpmap -u https://example.com/main.js
+httpmap -u https://example.com
 ```
 
 Output
 ```
+.__     __    __
+|  |___/  |__/  |_______   _____ _____  ______
+|  |  \   __\   __\____ \ /     \\__  \ \____ \
+|   Y  \  |  |  | |  |_> >  Y Y  \/ __ \|  |_> >
+|___|  /__|  |__| |   __/|__|_|  (____  /   __/
+     \/           |__|         \/     \/|__|
+https://github.com/0mgfriday/httpmap
+
+Target Url: https://example.com
 {
   "Paths": [
     "/api/v1/users",
@@ -47,7 +57,7 @@ Output
   ],
   "FormActions": [],
   "JavaScriptFiles": [
-    "test.js"
+    "app.js"
   ],
   "GraphQL": [
     "mutation AddUser",
@@ -68,10 +78,13 @@ Usage:
   0mg.HttpMap [options]
 
 Options:
-  -u, --uri <uri> (REQUIRED)    Uri to scrape. (Url or file path)
-  -ua, --useragent <useragent>  Useragent to use for requests [default: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101
-                                Firefox/104.0]
+  -u, --uri <uri> (REQUIRED)    Uri to scrape (Url or file path)
+  -ua, --useragent <useragent>  Useragent to use for requests [default: Mozilla/5.0 (Windows NT 10.0; Win64; x64;
+                                rv:108.0) Gecko/20100101 Firefox/108.0]
   -p, --proxy <proxy>           Proxy url
+  -H, --header <header>         Header for requests (Multiple Allowed)
+  -o, --outfile <outfile>       Write output as json to specified file
+  -q, --quiet                   Only print output
   --version                     Show version information
   -?, -h, --help                Show help and usage information
 ```
