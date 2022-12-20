@@ -34,11 +34,12 @@ namespace _0mg.HttpMap
                 var data = await spaScraper.ScrapeAsync(uri);
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented);
 
-                Console.WriteLine(json);
-                if (outFile != null)
+                if (!string.IsNullOrEmpty(outFile))
                 {
                     File.WriteAllText(outFile, json);
                 }
+
+                Console.WriteLine(json);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,14 @@
-﻿using System.CommandLine;
+﻿using AngleSharp.Dom;
+using System.CommandLine;
+
+const string banner = @".__     __    __                                
+|  |___/  |__/  |_______   _____ _____  ______  
+|  |  \   __\   __\____ \ /     \\__  \ \____ \ 
+|   Y  \  |  |  | |  |_> >  Y Y  \/ __ \|  |_> >
+|___|  /__|  |__| |   __/|__|_|  (____  /   __/ 
+     \/           |__|         \/     \/|__|    
+https://github.com/0mgfriday/httpmap
+";
 
 var targetOption = new Option<string>(
     new string[] { "--uri", "-u" },
@@ -32,7 +42,14 @@ var headersOption = new Option<IEnumerable<string>>(
 
 var outfileOption = new Option<string?>(
     new string[] { "--outfile", "-o" },
-    description: "Write output to specified file")
+    description: "Write output as json to specified file")
+{
+    IsRequired = false,
+};
+
+var quietOption = new Option<bool>(
+    new string[] { "--quiet", "-q" },
+    description: "Only print output")
 {
     IsRequired = false,
 };
@@ -44,18 +61,26 @@ var rootCommand = new RootCommand
     proxyOption,
     headersOption,
     outfileOption,
+    quietOption,
 };
 
 rootCommand.Description = "Tool for scraping backend data from frontend code.";
 rootCommand.SetHandler(
-    async (string target, string userAgent, string? proxyUrl, IEnumerable<string> headers, string? outFile) =>
+    async (string target, string userAgent, string? proxyUrl, IEnumerable<string> headers, string? outFile, bool queit) =>
     {
+        if (!queit)
+        {
+            Console.WriteLine(banner);
+            Console.WriteLine($"Target Url: {target}");
+        }
+
         await _0mg.HttpMap.HttpMap.ScrapeAsync(target, userAgent, proxyUrl, headers, outFile);
     },
     targetOption,
     userAgentOption,
     proxyOption,
     headersOption,
-    outfileOption);
+    outfileOption,
+    quietOption);
 
 return await rootCommand.InvokeAsync(args);
