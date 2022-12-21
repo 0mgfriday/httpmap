@@ -1,10 +1,10 @@
 # Overview
-Tool for scraping backend data from a given file or url. For spa apps it will try to find the main or app js file to extract info from. Meant to find most of the things to give an overview of what is there and what to look closer at.
+Tool for extracting data such as URLs, GraphQL queries, sensitive info, etc. from a given file or url. For SPA apps it will try to find the main or app js file to extract info from.
 
 
 Extracts the following data:
 - Paths
-- Urls
+- URLs
 - Websockets
 - Grapghql queries and mutations
 - Hardcoded API keys
@@ -63,7 +63,9 @@ Target Url: https://example.com
     "mutation AddUser",
     "query UserQuery"
   ],
-  "Secrets": []
+  "Secrets": [
+    "API Key: 28b901e3041d5eddb024f7a581b78f76"
+  ]
 }
 ```
 
