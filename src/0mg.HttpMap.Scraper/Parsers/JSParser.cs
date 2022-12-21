@@ -24,7 +24,8 @@ namespace _0mg.HttpMap.Scraper.Parsers
                     break;
                 start = i + 1;
 
-                var strStart = input.LastIndexOf(delimeter, i - 1, 100);
+                var maxStepsBack = i - 100 > 0 ? 100 : i;
+                var strStart = input.LastIndexOf(delimeter, i, maxStepsBack);
                 if (strStart != -1)
                 {
                     var maxSteps = i + 100 < input.Length ? 100 : input.Length - i - 1;
@@ -45,7 +46,7 @@ namespace _0mg.HttpMap.Scraper.Parsers
                 return false;
             if (!Uri.IsWellFormedUriString(str, UriKind.Relative))
                 return false;
-            if (str[0] == '@')
+            if (str[0] == '@' || str[0] == '#')
                 return false;
 
             var extensionsToIgnore = new string[] { "js", "png", "jpg", "jpeg", "svg", "mp3" };
