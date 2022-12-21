@@ -21,6 +21,16 @@
         public SortedSet<string> GraphQL { get; }
         public SortedSet<string> Secrets { get; }
 
+        public void AddData(PageData data)
+        {
+            AddPaths(data.Paths);
+            AddExternalPaths(data.ExternalUrls);
+            AddWebSockets(data.WebSockets);
+            AddFormActions(data.FormActions);
+            AddJavaScriptFiles(data.JavaScriptFiles);
+            AddGraphQL(data.GraphQL);
+            AddSecrets(data.Secrets);
+        }
 
         public void AddPaths(IEnumerable<string> paths)
         {

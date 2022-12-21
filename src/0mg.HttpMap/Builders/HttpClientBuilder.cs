@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 
 namespace _0mg.HttpMap.Builders
 {
@@ -7,6 +8,7 @@ namespace _0mg.HttpMap.Builders
         string? userAgent = null;
         string? proxyUrl = null;
         bool allowRedirects = true;
+        Dictionary<string, string> defaultHeaders = new Dictionary<string, string>();
 
         public void SetUseragent(string userAgent)
         {
@@ -19,6 +21,18 @@ namespace _0mg.HttpMap.Builders
                 throw new ArgumentException("Invalid proxy url");
 
             this.proxyUrl = proxyUrl;
+        }
+
+        public void SetDefaultHeaders(IEnumerable<string> headers)
+        {
+            foreach (var header in headers)
+            { 
+                var parts = header.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length != 2)
+                    throw new ArgumentException($"Invalid header: {header}. Must be in format 'name: value'");
+
+                defaultHeaders.Add(parts[0], parts[1]);
+            }
         }
 
         public void SetAllowRedirects(bool allowRedirects)
@@ -57,6 +71,11 @@ namespace _0mg.HttpMap.Builders
                 client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
 
             client.Timeout = TimeSpan.FromSeconds(10);
+
+            foreach (var header in defaultHeaders)
+            {
+                client.DefaultRequestHeaders.Add(header.Key.Trim(), header.Value.Trim());
+            }
 
             return client;
         }

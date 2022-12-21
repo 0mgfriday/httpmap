@@ -11,7 +11,7 @@ namespace _0mg.HttpMap.Scraper.Parsers
 
             return matches
                 .Select(x => x.Groups[1])
-                .Select(x => x.Value)
+                .Select(x => $"API Key: {x.Value}")
                 .ToHashSet();
         }
     }
