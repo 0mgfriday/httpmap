@@ -8,12 +8,6 @@ namespace _0mg.HttpMap
     {
         public static async Task ScrapeAsync(string url, string userAgent, string? proxyUrl, IEnumerable<string> headers, string? outFile)
         {
-            if (!Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
-            {
-                Console.WriteLine("Invalid URI provided");
-                Environment.Exit(1);
-            }
-
             if (outFile != null)
             {
                 if (!Uri.IsWellFormedUriString(outFile, UriKind.Absolute) && !Uri.IsWellFormedUriString(outFile, UriKind.Relative))
@@ -25,7 +19,7 @@ namespace _0mg.HttpMap
 
             try
             {
-                var uri = new Uri(url, UriKind.Absolute);
+                var uri = new Uri(url, UriKind.RelativeOrAbsolute);
 
                 var httpClient = BuildHttpClient(userAgent, proxyUrl, headers);
                 var scraper = new Scraper.Scraper(httpClient);

@@ -12,18 +12,24 @@ namespace _0mg.HttpMap.Scraper
             this.httpClient = httpClient;
         }
 
-        public async Task<PageData> ScrapeAsync(Uri url)
+        public async Task<PageData> ScrapeAsync(Uri uri)
         {
             string? content = null;
             string? contentType = null;
 
-            if (url.IsFile)
+            if (!uri.IsAbsoluteUri)
+                uri = new Uri(Path.Combine(Directory.GetCurrentDirectory(), uri.OriginalString));
+
+            if (uri.IsFile)
             {
-                content = File.ReadAllText(url.AbsolutePath);
+                if (!File.Exists(uri.OriginalString))
+                    throw new Exception($"File {uri.OriginalString} does not exist");
+                
+                content = File.ReadAllText(uri.OriginalString);
             }
             else
             {
-                var rsp = await httpClient.GetAsync(url);
+                var rsp = await httpClient.GetAsync(uri);
 
                 if (rsp.IsSuccessStatusCode)
                 {
@@ -34,12 +40,12 @@ namespace _0mg.HttpMap.Scraper
 
             if (!string.IsNullOrEmpty(content))
             {
-                if (contentType == "application/javascript" || url.LocalPath.EndsWith("js"))
+                if (contentType == "application/javascript" || uri.PathAndQuery.EndsWith("js"))
                 {
                     return GetDataFromJavaScript(content);
                 }
                 else
-                    return GetDataFromHtml(content, url.Host);
+                    return GetDataFromHtml(content, uri.Host);
             }
             else
                 return new PageData();
