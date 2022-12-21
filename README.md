@@ -17,10 +17,6 @@ Download the nuget file from releases
 ```
 dotnet tool install --global --add-source [DIRECTORY_CONTAINING_NUGET] 0mg.HttpMap --version 1.0.1
 ```
-### Updating
-```
-dotnet tool update --global --add-source [DIRECTORY_CONTAINING_NUGET] 0mg.HttpMap --version 1.0.1
-```
 
 You may need to add `$HOME/.dotnet/tools` to your path on Linux. You can do so by adding something like the following to your `.bashrc` or `.zshrc` file
 ```bash
@@ -33,10 +29,10 @@ export PATH=$DOTNETTOOLS:$PATH
 dotnet pack -c Release .\src\0mg.HttpMap\0mg.HttpMap.csproj
 dotnet tool install --global --add-source .nupkg 0mg.HttpMap
 ```
-#### Updating
+
+### Updating
 ```
-dotnet pack -c Release .\src\0mg.HttpMap\0mg.HttpMap.csproj
-dotnet tool update --global --add-source .nupkg 0mg.HttpMap
+dotnet tool update --global --add-source [DIRECTORY_CONTAINING_NUGET] 0mg.HttpMap --version 1.0.1
 ```
 
 ## Example
