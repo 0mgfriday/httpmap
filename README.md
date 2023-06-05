@@ -13,6 +13,12 @@ Extracts the following data:
 dotnet 6 https://dotnet.microsoft.com/en-us/download
 
 ## Installation
+### Nuget
+```
+dotnet tool install --global 0mg.HttpMap
+```
+
+### From Release
 Download the nuget file from releases
 ```
 dotnet tool install --global --add-source [DIRECTORY_CONTAINING_NUGET] 0mg.HttpMap --version 1.0.1
